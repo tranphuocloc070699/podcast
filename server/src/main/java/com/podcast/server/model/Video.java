@@ -20,15 +20,16 @@ import java.util.Date;
 public class Video {
 
     @Id
-    @SequenceGenerator(
-            name = "tbl_video_id_seq",
-            sequenceName = "tbl_video_id_seq",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "tbl_video_id_seq"
-    )
+//    @SequenceGenerator(
+//            name = "tbl_video_id_seq",
+//            sequenceName = "tbl_video_id_seq",
+//            allocationSize = 1
+//    )
+//    @GeneratedValue(
+//            strategy = GenerationType.SEQUENCE,
+//            generator = "tbl_video_id_seq"
+//    )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column()

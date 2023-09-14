@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  config:
+    image: loctran070699/podcast-config-server:latest
+    mem_limit: 1G
+    ports:
+      - "8080:8080"
+    networks:
+      - podcast-network
+    healthcheck:
+      test: [ "CMD-SHELL", "wget --spider -q http://localhost:8080/actuator/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 2
+
+
+  video:
+    image: loctran070699/podcast-api:latest
+    mem_limit: 1G
+    ports:
+      - "8000:8000"
+    networks:
+      - podcast-network
+    depends_on:
+      config:
+        condition: service_healthy
+#    deploy:
+#      restart_policy:
+#        condition: any
+#        delay: 5s
+#        max_attempts: 3
+#        window: 120s
+    environment:
+      SPRING_APPLICATION_NAME: video
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_CONFIG_IMPORT: optional:configserver:http://config:8080
+networks:
+  podcast-network:
